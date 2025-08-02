@@ -17,8 +17,22 @@
       }
     },
     {
+      "src": "/manifest.json",
+      "headers": {
+        "content-type": "application/json"
+      }
+    },
+    {
+      "src": "/favicon.ico",
+      "headers": {
+        "cache-control": "public, max-age=86400"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }

@@ -1,4 +1,4 @@
-// web/src/App.js - FIXED WITH CORRECT IMPORTS
+// web/src/App.js - COMPLETE FULL VERSION WITH ALL ROUTES
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -21,7 +21,7 @@ import SearchPage from './pages/search/SearchPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import BookmarksPage from './pages/bookmarks/BookmarksPage';
 
-// Import User Pages (NEW)
+// Import User Pages
 import UserProfilePage from './pages/user/UserProfilePage';
 import UserFollowersPage from './pages/user/UserFollowersPage';
 import UserFollowingPage from './pages/user/UserFollowingPage';
@@ -109,10 +109,45 @@ const AppLayout = () => {
             <Route path="/admin" element={<AdminDashboardPage />} />
             
             {/* Placeholder Routes */}
-            <Route path="/notifications" element={<div>Notifications page coming soon!</div>} />
+            <Route path="/notifications" element={<div style={{
+              padding: '50px', 
+              textAlign: 'center', 
+              background: 'linear-gradient(135deg, #0066CC, #3385DB)',
+              color: 'white',
+              borderRadius: '12px',
+              margin: '20px'
+            }}>
+              <h2>🔔 Notifications</h2>
+              <p>Notification system coming soon!</p>
+            </div>} />
             
             {/* 404 Route */}
-            <Route path="*" element={<div>Page not found</div>} />
+            <Route path="*" element={<div style={{
+              padding: '50px', 
+              textAlign: 'center',
+              background: 'linear-gradient(135deg, #FF6B35, #E55A2B)',
+              color: 'white',
+              borderRadius: '12px',
+              margin: '20px'
+            }}>
+              <h2>🔍 Page Not Found</h2>
+              <p>The page you're looking for doesn't exist.</p>
+              <button 
+                onClick={() => window.location.href = '/feed'}
+                style={{
+                  background: 'white',
+                  color: '#FF6B35',
+                  border: 'none',
+                  padding: '12px 24px',
+                  borderRadius: '6px',
+                  marginTop: '20px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold'
+                }}
+              >
+                Go to Feed
+              </button>
+            </div>} />
           </Routes>
         </main>
       </div>
