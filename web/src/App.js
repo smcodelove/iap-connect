@@ -1,4 +1,4 @@
-// web/src/App.js - COMPLETE FULL VERSION WITH ALL ROUTES
+// web/src/App.js - ROUTER STRUCTURE FIX FOR 404 ISSUE
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -53,19 +53,193 @@ function App() {
         <Router>
           <div className="App">
             <Routes>
-              {/* Public Routes */}
+              {/* Public Routes - Direct Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               
-              {/* Protected Routes */}
-              <Route 
-                path="/*" 
-                element={
-                  <ProtectedRoute>
-                    <AppLayout />
-                  </ProtectedRoute>
-                } 
-              />
+              {/* Protected Routes - Flat Structure to Avoid Nesting Issues */}
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <Navigate to="/feed" replace />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/feed" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <FeedPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/trending" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <TrendingPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/home" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <HomePage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <ProfilePage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/edit-profile" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <EditProfilePage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/connections" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <ConnectionsPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/user/:id" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <UserProfilePage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/user/:id/posts" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <UserPostsPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/user/:id/followers" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <UserFollowersPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/user/:id/following" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <UserFollowingPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/create-post" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <CreatePostPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/post/:id" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <PostDetailPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/search" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <SearchPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/bookmarks" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <BookmarksPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <AdminDashboardPage />
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/notifications" element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <div style={{
+                      padding: '50px', 
+                      textAlign: 'center', 
+                      background: 'linear-gradient(135deg, #0066CC, #3385DB)',
+                      color: 'white',
+                      borderRadius: '12px',
+                      margin: '20px'
+                    }}>
+                      <h2>🔔 Notifications</h2>
+                      <p>Notification system coming soon!</p>
+                    </div>
+                  </AppLayout>
+                </ProtectedRoute>
+              } />
+              
+              {/* Catch All Route */}
+              <Route path="*" element={
+                <div style={{
+                  padding: '50px', 
+                  textAlign: 'center',
+                  background: 'linear-gradient(135deg, #FF6B35, #E55A2B)',
+                  color: 'white',
+                  borderRadius: '12px',
+                  margin: '20px',
+                  minHeight: '100vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <h1>🎯 IAP Connect</h1>
+                  <h2>🔍 Page Not Found</h2>
+                  <p>The page you're looking for doesn't exist.</p>
+                  <button 
+                    onClick={() => window.location.href = '/feed'}
+                    style={{
+                      background: 'white',
+                      color: '#FF6B35',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '6px',
+                      marginTop: '20px',
+                      cursor: 'pointer',
+                      fontWeight: 'bold',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    Go to Feed
+                  </button>
+                </div>
+              } />
             </Routes>
           </div>
         </Router>
@@ -75,80 +249,14 @@ function App() {
 }
 
 // Layout component for authenticated pages
-const AppLayout = () => {
+const AppLayout = ({ children }) => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <Sidebar />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Navbar />
         <main style={{ flex: 1, padding: '20px', backgroundColor: '#f8f9fa' }}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/feed" replace />} />
-            <Route path="/feed" element={<FeedPage />} />
-            <Route path="/trending" element={<TrendingPage />} />
-            <Route path="/home" element={<HomePage />} />
-            
-            {/* Profile Routes */}
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/edit-profile" element={<EditProfilePage />} />
-            <Route path="/connections" element={<ConnectionsPage />} />
-            
-            {/* User Profile Routes */}
-            <Route path="/user/:id" element={<UserProfilePage />} />
-            <Route path="/user/:id/posts" element={<UserPostsPage />} />
-            <Route path="/user/:id/followers" element={<UserFollowersPage />} />
-            <Route path="/user/:id/following" element={<UserFollowingPage />} />
-            
-            {/* Post Routes */}
-            <Route path="/create-post" element={<CreatePostPage />} />
-            <Route path="/post/:id" element={<PostDetailPage />} />
-            
-            {/* Other Routes */}
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/bookmarks" element={<BookmarksPage />} />
-            <Route path="/admin" element={<AdminDashboardPage />} />
-            
-            {/* Placeholder Routes */}
-            <Route path="/notifications" element={<div style={{
-              padding: '50px', 
-              textAlign: 'center', 
-              background: 'linear-gradient(135deg, #0066CC, #3385DB)',
-              color: 'white',
-              borderRadius: '12px',
-              margin: '20px'
-            }}>
-              <h2>🔔 Notifications</h2>
-              <p>Notification system coming soon!</p>
-            </div>} />
-            
-            {/* 404 Route */}
-            <Route path="*" element={<div style={{
-              padding: '50px', 
-              textAlign: 'center',
-              background: 'linear-gradient(135deg, #FF6B35, #E55A2B)',
-              color: 'white',
-              borderRadius: '12px',
-              margin: '20px'
-            }}>
-              <h2>🔍 Page Not Found</h2>
-              <p>The page you're looking for doesn't exist.</p>
-              <button 
-                onClick={() => window.location.href = '/feed'}
-                style={{
-                  background: 'white',
-                  color: '#FF6B35',
-                  border: 'none',
-                  padding: '12px 24px',
-                  borderRadius: '6px',
-                  marginTop: '20px',
-                  cursor: 'pointer',
-                  fontWeight: 'bold'
-                }}
-              >
-                Go to Feed
-              </button>
-            </div>} />
-          </Routes>
+          {children}
         </main>
       </div>
     </div>
